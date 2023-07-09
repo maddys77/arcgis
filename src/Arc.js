@@ -1,29 +1,45 @@
 import React from 'react'
 import Map from "@arcgis/core/Map"
 import MapView from "@arcgis/core/views/MapView"
-import {useRef,useEffect} from 'react'
+import {useRef,useEffect,useState} from 'react'
 
 
 const Arc = () => {
+    const [maps,setmaps] = useState("topo-vector")
     const mapRef = useRef(null)
     useEffect(() => {
       new MapView({
         container:mapRef.current,
         map: new Map({
-            basemap:"topo-vector"
+            basemap:maps
         }),
         zoom:10,
         center: [-118.24, 34.05]
       })
 
-    }, [])
+    }, [maps])
     
 
 
 
   return (
-    
-    <div ref={mapRef} style={{height:"100vh",width:"100%"}}></div>
+    <>
+    <div className='firstdiv' style={{height:"6.2vh",backgroundColor:"#7CB9E8"}}>
+    <div class="dropdown">
+  <button class="dropbtn">Type of Map</button>
+  <div class="dropdown-content">
+  <p onClick={()=>setmaps("terrain")}>Terrain</p>
+  <p onClick={()=>setmaps("oceans")}>Oceans</p>
+  <p onClick={()=>setmaps("osm")}>Street Map</p>
+  <p onClick={()=>setmaps("satellite")}>Satellite</p>
+
+
+
+  </div>
+</div>
+    </div>
+    <div ref={mapRef} style={{height:800}}></div>
+    </>
   )
 }
 
