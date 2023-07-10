@@ -2,20 +2,32 @@ import React from 'react'
 import Map from "@arcgis/core/Map"
 import MapView from "@arcgis/core/views/MapView"
 import {useRef,useEffect,useState} from 'react'
+import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+// import location from './location.json'
 
 
 const Arc = () => {
     const [maps,setmaps] = useState("topo-vector")
     const mapRef = useRef(null)
     useEffect(() => {
+      const geojsonlayer = new GeoJSONLayer({
+        url:"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+      })
+
+      const webmap = new Map({
+        basemap:maps,
+        layers:[geojsonlayer]
+      })
       new MapView({
         container:mapRef.current,
-        map: new Map({
-            basemap:maps
-        }),
+        map: webmap,
         zoom:10,
         center: [-118.24, 34.05]
       })
+
+      
+      // webmap.add(geojsonlayer)
+    
 
     }, [maps])
     
